@@ -475,6 +475,20 @@ register_conv_template(
     )
 )
 
+register_conv_template(
+    Conversation(
+        name="noor-chat",
+        roles=("المستخدم", "نور"),
+        system_template="System: {system_message}",
+        messages=[],
+        sep_style=SeparatorStyle.FALCON_CHAT,
+        sep="\n",
+        sep2="<|endoftext|>",
+        stop_str="نور\n",
+    )
+)
+
+
 # A template with a one-shot conversation example
 register_conv_template(
     Conversation(

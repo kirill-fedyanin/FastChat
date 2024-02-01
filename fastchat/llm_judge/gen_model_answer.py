@@ -111,6 +111,8 @@ def get_model_answers(
                 conv.append_message(conv.roles[0], qs)
                 conv.append_message(conv.roles[1], None)
                 prompt = conv.get_prompt()
+                # print("Prompt")
+                # print(prompt)
                 input_ids = tokenizer([prompt]).input_ids
 
                 if temperature < 1e-4:
@@ -125,6 +127,8 @@ def get_model_answers(
                         do_sample=do_sample,
                         temperature=temperature,
                         max_new_tokens=max_new_token,
+                        pad_token_id=tokenizer.pad_token_id,
+                        eos_token_id=tokenizer.eos_token_id
                     )
                     if model.config.is_encoder_decoder:
                         output_ids = output_ids[0]
@@ -172,6 +176,8 @@ def get_model_answers(
                     print("ERROR question ID: ", question["question_id"])
                     output = "ERROR"
 
+                print("answer")
+                print(output)
                 conv.update_last_message(output)
                 turns.append(output)
 
