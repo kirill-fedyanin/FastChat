@@ -111,8 +111,6 @@ def get_model_answers(
                 conv.append_message(conv.roles[0], qs)
                 conv.append_message(conv.roles[1], None)
                 prompt = conv.get_prompt()
-                # print("Prompt")
-                # print(prompt)
                 input_ids = tokenizer([prompt]).input_ids
 
                 if temperature < 1e-4:
@@ -176,8 +174,13 @@ def get_model_answers(
                     print("ERROR question ID: ", question["question_id"])
                     output = "ERROR"
 
+                print('------------------')
+                print("Prompt")
+                print(prompt)
+                print('--')
                 print("answer")
                 print(output)
+                print("~~~~~~~~~~~~~~~~~~~")
                 conv.update_last_message(output)
                 turns.append(output)
 
