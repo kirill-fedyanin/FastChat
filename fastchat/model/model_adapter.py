@@ -1408,6 +1408,28 @@ class NoorChatAdapter(BaseModelAdapter):
         return get_conv_template("noor-chat")
 
 
+
+class JaisChatAdapter(BaseModelAdapter):
+    def match(self, model_path: str):
+        return "jais" in model_path.lower()
+
+    def load_model(self, model_path, from_pretrained_kwargs):
+        tokenizer = AutoTokenizer.from_pretrained(model_path)
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            trust_remote_code=True,
+            **from_pretrained_kwargs,
+        )
+
+        model.config.eos_token_id = tokenizer.eos_token_id
+        model.config.pad_token_id = tokenizer.pad_token_id
+        return model, tokenizer
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("jais-chat")
+
+
 class FalconChatAdapter(BaseModelAdapter):
     def match(self, model_path: str):
         return "falcon" in model_path.lower() and "chat" in model_path.lower()
@@ -2475,6 +2497,7 @@ register_model_adapter(ChangGPTAdapter)
 register_model_adapter(TuluAdapter)
 register_model_adapter(FalconChatAdapter)
 register_model_adapter(NoorChatAdapter)
+register_model_adapter(JaisChatAdapter)
 register_model_adapter(FalconAdapter)
 register_model_adapter(TigerBotAdapter)
 register_model_adapter(BaichuanAdapter)
