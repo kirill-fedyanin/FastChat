@@ -243,13 +243,15 @@ def run_judge_pair(question, answer_a, answer_b, judge, ref_answer, multi_turn=F
 
     if multi_turn:
         system_prompt = judge.prompt_template["system_prompt"]
+
+        # TODO i've changed to restrict answer lengths for now
         user_prompt = judge.prompt_template["prompt_template"].format(
             question_1=question["turns"][0],
             question_2=question["turns"][1],
-            answer_a_1=answer_a["choices"][0]["turns"][0],
-            answer_b_1=answer_b["choices"][0]["turns"][0],
-            answer_a_2=answer_a["choices"][0]["turns"][1],
-            answer_b_2=answer_b["choices"][0]["turns"][1],
+            answer_a_1=answer_a["choices"][0]["turns"][0][:1600],
+            answer_b_1=answer_b["choices"][0]["turns"][0][:1600],
+            answer_a_2=answer_a["choices"][0]["turns"][1][:1600],
+            answer_b_2=answer_b["choices"][0]["turns"][1][:1600],
             **kwargs,
         )
     else:

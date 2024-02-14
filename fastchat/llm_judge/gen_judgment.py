@@ -98,6 +98,10 @@ def make_match_all_pairs(
                         multi_turn=multi_turn,
                     )
                 else:
+                    # TODO
+                    # match = MatchPair(
+                    #     dict(q), m_1, m_2, a_1, a_2, judge, multi_turn=multi_turn
+                    # )
                     match = MatchPair(
                         dict(q), m_1, m_2, a_1, a_2, judge, multi_turn=multi_turn
                     )
@@ -301,7 +305,7 @@ if __name__ == "__main__":
     # Show match stats and prompt enter to continue
     print("Stats:")
     print(json.dumps(match_stat, indent=4))
-    input("Press Enter to confirm...")
+    # input("Press Enter to confirm...")
 
     # Play matches
     if args.parallel == 1:
