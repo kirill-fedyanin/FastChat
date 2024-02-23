@@ -1455,6 +1455,20 @@ class FalconChatAdapter(BaseModelAdapter):
     def match(self, model_path: str):
         return "falcon" in model_path.lower() and "chat" in model_path.lower()
 
+    def load_model(self, model_path, from_pretrained_kwargs):
+        tokenizer = AutoTokenizer.from_pretrained(model_path)
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            low_cpu_mem_usage=True,
+            trust_remote_code=True,
+            **from_pretrained_kwargs,
+        )
+
+        model.config.eos_token_id = tokenizer.eos_token_id
+        model.config.pad_token_id = tokenizer.pad_token_id
+        return model, tokenizer
+
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("falcon-chat")
 

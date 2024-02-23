@@ -56,8 +56,10 @@ def display_result_pairwise(args):
     list_res = []
     # traverse df row by row
     for index, row in df_all.iterrows():
-        if args.model_list is not None and row["model_1"] not in args.model_list:
-            continue
+        if args.model_list is not None:
+            if row["model_1"] not in args.model_list or row["model_2"] not in args.model_list:
+                continue
+
         if args.baseline_model is not None:
             if args.baseline_model not in [row["model_1"], row["model_2"]]:
                 continue
@@ -89,7 +91,16 @@ def display_result_pairwise(args):
     )
     # print(df.sort_values(by="win_rate", ascending=False))
     # print(df.sort_values(by="loss_rate", ascending=True))
-    print(df.sort_values(by="win_rate_adjusted", ascending=False))
+
+    df2 = df.sort_values(by="win_rate_adjusted", ascending=False)
+    print(df2)
+
+    # import io
+    # with io.StringIO() as buffer:
+    #     df2.to_csv(buffer, sep=' ', index=False)
+    #     print(buffer.getvalue())
+    # import ipdb; ipdb.set_trace()
+    # print(df.sort_values(by="win_rate_adjusted", ascending=False))
 
 
 if __name__ == "__main__":
