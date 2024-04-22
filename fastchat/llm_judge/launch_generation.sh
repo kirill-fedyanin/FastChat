@@ -31,4 +31,13 @@
 
 # python gen_judgment.py --bench-name=vicuna_bench --mode=pairwise-all --model-list acegpt-13b jais-30b noor-005 noor-014 noor-chat-mix-new --parallel 16
 
+#python gen_model_answer.py --model-path=core42/jais-13b-chat --model-id=jais-13b --num-gpus-total=4
+#python gen_model_answer.py --model-path=FreedomIntelligence/AceGPT-7B-chat --model-id=acegpt-7b --num-gpus-total=4
+#python gen_model_answer.py --model-path=TII-Noor-Internal/Noor-DPO-014-Chat-Mix-New --model-id=noor-014 --num-gpus-total=4
+#python gen_judgment.py --model-list acegpt-7b --parallel 16
+python gen_judgment.py --mode=pairwise-all --model-list jais-13b noor-005 --parallel 16
+python gen_judgment.py --mode=pairwise-all --model-list acegpt-7b noor-005 --parallel 16
+python gen_judgment.py --mode=pairwise-all --model-list acegpt-7b noor-chat-mix-new --parallel 16
+python gen_judgment.py --mode=pairwise-all --model-list acegpt-13b noor-chat-mix-new --parallel 16
+python gen_judgment.py --mode=pairwise-all --model-list jais-13b noor-chat-mix-new --parallel 16
 

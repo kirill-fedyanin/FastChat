@@ -6,6 +6,10 @@ import argparse
 import pandas as pd
 
 
+# CATEGORIES = ['writing', 'roleplay', 'reasoning', 'math', 'coding', 'extraction', 'stem', 'humanities']
+CATEGORIES = ['writing', 'roleplay', 'reasoning', 'math', 'extraction', 'stem', 'humanities']
+
+
 def display_result_single(args):
     if args.input_file is None:
         input_file = (
@@ -16,8 +20,19 @@ def display_result_single(args):
 
     print(f"Input file: {input_file}")
     df_all = pd.read_json(input_file, lines=True)
+    questions = pd.read_json("data/mt_bench/question.jsonl", lines=True)
+    categories = {q['question_id']: q['category'] for _, q in questions.iterrows()}
+
+    def add_category(line):
+        line['category'] = categories[line['question_id']]
+        return line
+
+    df_all = df_all.apply(add_category, axis=1)
+    df_all = df_all[df_all.category.isin(CATEGORIES)]
+
     df = df_all[["model", "score", "turn"]]
     df = df[df["score"] != -1]
+
 
     if args.model_list is not None:
         df = df[df["model"].isin(args.model_list)]
@@ -52,6 +67,17 @@ def display_result_pairwise(args):
         df_all["model_1"].unique().tolist() + df_all["model_2"].unique().tolist()
     )
     model_list = list(set(model_list))
+
+    questions = pd.read_json("data/mt_bench/question.jsonl", lines=True)
+    categories = {q['question_id']: q['category'] for _, q in questions.iterrows()}
+
+    def add_category(line):
+        line['category'] = categories[line['question_id']]
+        return line
+
+    df_all = df_all.apply(add_category, axis=1)
+    df_all = df_all[df_all.category.isin(CATEGORIES)]
+
 
     list_res = []
     # traverse df row by row

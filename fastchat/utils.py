@@ -349,7 +349,7 @@ def get_context_length(config):
         val = getattr(config, key, None)
         if val is not None:
             return int(rope_scaling_factor * val)
-    return 2048
+    return 8192
 
 
 def str_to_torch_dtype(dtype: str):

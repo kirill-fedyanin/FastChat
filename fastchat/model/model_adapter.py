@@ -1456,6 +1456,7 @@ class FalconChatAdapter(BaseModelAdapter):
         return "falcon" in model_path.lower() and "chat" in model_path.lower()
 
     def load_model(self, model_path, from_pretrained_kwargs):
+        print("loading falcon-chat")
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         tokenizer.pad_token_id = tokenizer.eos_token_id
         model = AutoModelForCausalLM.from_pretrained(
@@ -1524,6 +1525,7 @@ class BaichuanAdapter(BaseModelAdapter):
                 return get_conv_template("baichuan2-chat")
             return get_conv_template("baichuan-chat")
         return get_conv_template("zero_shot")
+
 
 
 class XGenAdapter(BaseModelAdapter):
